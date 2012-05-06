@@ -86,6 +86,6 @@ var evalScheem = function (expr, env) {
     }
 };
 
-var evalScheemString = function(sexpr, env){
-	return evalScheem(SCHEEM.parse(sexpr), env);
+if (typeof module !== 'undefined') {
+    module.exports.evalScheem = evalScheem;
 }

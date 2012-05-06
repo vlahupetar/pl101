@@ -1,3 +1,18 @@
+if (typeof module !== 'undefined') {
+    // In Node.js load required modules
+    var assert = require('chai').assert;
+    var PEG = require('pegjs');
+    var fs = require('fs');
+    var evalScheem = require('../scheem').evalScheem;
+		var evalScheemString = require('../scheem').evalScheemString;
+    var parse = PEG.buildParser(fs.readFileSync(
+        'scheem.peg', 'utf-8')).parse;
+} else {
+    // In browser assume loaded by <script>
+    var parse = SCHEEM.parse;
+    var assert = chai.assert;
+}
+
 suite('quote', function() {
     test('a number', function() {
         assert.deepEqual(
@@ -298,25 +313,19 @@ suite('conditionals', function(){
 suite('parse', function() {
     test('a number', function() {
         assert.deepEqual(
-            SCHEEM.parse('42'),
+            parse('42'),
             42
         );
     });
     test('a variable', function() {
         assert.deepEqual(
-            SCHEEM.parse('x'),
+            parse('x'),
             'x'
         );
     });
 	test('complex scheem parse', function() {
 		assert.deepEqual(
-            evalScheem(SCHEEM.parse("(if (= 1 (+ 1 (- 2 3))) (car '((1 2) (3 4))) '(2 1))"),{}),
-            [2,1]
-        );
-    });
-	test('scheem string parse', function() {
-		assert.deepEqual(
-            evalScheemString("(if (= 1 (+ 1 (- 2 3))) (car '((1 2) (3 4))) '(2 1))",{}),
+            evalScheem(parse("(if (= 1 (+ 1 (- 2 3))) (car '((1 2) (3 4))) '(2 1))"),{}),
             [2,1]
         );
     });

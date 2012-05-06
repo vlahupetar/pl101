@@ -1,0 +1,53 @@
+start =
+    expression
+
+expression =
+	__ a:atom __
+		{return a;}
+	/ lb head:expression tail:wsexpression* rb
+		{return [head].concat(tail);}
+	/ quote
+		
+quote = 
+	__ "'" exp:expression __
+		{return ['quote'].concat([exp]);}
+		
+wsexpression 
+	= __ exp:expression
+		{return exp;}
+
+lb =
+	__ "(" __
+rb =
+	__ ")" __
+	
+WhiteSpace "whitespace"
+  = [\t\v\f \u00A0\uFEFF]
+  / Zs
+  
+LineTerminator
+  = [\n\r\u2028\u2029]
+  
+LineTerminatorSequence "end of line"
+  = "\n"
+  / "\r\n"
+  / "\r"
+  / "\u2028" // line separator
+  / "\u2029" // paragraph separator
+  
+Comment "comment"
+  = SingleLineComment
+
+SingleLineComment
+  = ";;" (!LineTerminator .)*
+__
+  = (WhiteSpace / LineTerminatorSequence / Comment)*
+	
+validchar
+    = [0-9a-zA-Z_?!+\-=@#$%^&*/.]
+
+atom =
+    chars:validchar+
+        { var atom = chars.join(""); return isNaN(atom)?atom:Number(atom);}
+		
+Zs = [\u0020\u00A0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000]
