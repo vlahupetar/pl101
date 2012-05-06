@@ -144,7 +144,19 @@ suite('divide', function() {
 
 suite('var evaluate', function(){
 	
-	var env = {x:2, y:3, z:10};
+	var env = {
+		name:'x',
+		value:2,
+		outer:{
+			name:'y',
+			value:3,
+			outer:{
+				name:'z',
+				value:10,
+				outer:null
+			}
+		}
+	};
 	test('5 test',function(){
 		assert.deepEqual(
 			evalScheem(5, env), 
@@ -178,7 +190,20 @@ suite('var evaluate', function(){
 	
 });
 suite('define/set!', function(){
-	var env = {x:2, y:3, z:10};
+	var env = {
+		name:'x',
+		value:2,
+		outer:{
+			name:'y',
+			value:3,
+			outer:{
+				name:'z',
+				value:10,
+				outer:null
+			}
+		}
+	};
+	
 	test( 'x test',function(){
 		assert.deepEqual(evalScheem('x', env), 2)
 	});
@@ -188,20 +213,84 @@ suite('define/set!', function(){
 		assert.deepEqual(tmp, 0)
 	});
 	test( '(define a 5) test',function(){
-		assert.deepEqual(env, {x:2, y:3, z:10, a:5})
+		assert.deepEqual(env, {
+			name:'a',
+			value:5,
+			outer:{
+				name:'x',
+				value:2,
+				outer:{
+					name:'y',
+					value:3,
+					outer:{
+						name:'z',
+						value:10,
+						outer:null
+					}
+				}
+			}
+		})
 	});
 	test( '(set! a 1) test',function(){
 		var tmp = evalScheem(['set!', 'a', 1], env);
-		assert.deepEqual(env, {x:2, y:3, z:10, a:1})
+		assert.deepEqual(env, {
+			name:'a',
+			value:1,
+			outer:{
+				name:'x',
+				value:2,
+				outer:{
+					name:'y',
+					value:3,
+					outer:{
+						name:'z',
+						value:10,
+						outer:null
+					}
+				}
+			}
+		})
 	});
 	
 	test( '(set! x 7) test',function(){
 		var tmp = evalScheem(['set!', 'x', 7], env);
-		assert.deepEqual(env, {x:7, y:3, z:10, a:1})
+		assert.deepEqual(env, {
+			name:'a',
+			value:1,
+			outer:{
+				name:'x',
+				value:7,
+				outer:{
+					name:'y',
+					value:3,
+					outer:{
+						name:'z',
+						value:10,
+						outer:null
+					}
+				}
+			}
+		})
 	});
 	test( '(set! y (+ x 1)) test',function(){
 		var tmp = evalScheem(['set!', 'y', ['+', 'x', 1]], env);
-		assert.deepEqual(env, {x:7, y:8, z:10, a:1})
+		assert.deepEqual(env, {
+			name:'a',
+			value:1,
+			outer:{
+				name:'x',
+				value:7,
+				outer:{
+					name:'y',
+					value:8,
+					outer:{
+						name:'z',
+						value:10,
+						outer:null
+					}
+				}
+			}
+		});
 	});
 	test('type error', function(){
 		assert.throws(function(){
@@ -218,7 +307,15 @@ suite('begin expression', function(){
 		assert.deepEqual(evalScheem(['begin', ['+', 2, 2]], {}), 4);
 	});
 	test( '(begin x y x) test',function(){
-		assert.deepEqual(evalScheem(['begin', 'x', 'y', 'x'], {x:1, y:2}), 1);
+		assert.deepEqual(evalScheem(['begin', 'x', 'y', 'x'], {
+			name:'x',
+			value:1,
+			outer:{
+				name:'y',
+				value:2,
+				outer:null
+			}
+		}), 1);
 	});
 	test( '(begin (set! x 5) (set! x (+ y x) x)) test',function(){
 		assert.deepEqual(
@@ -227,7 +324,15 @@ suite('begin expression', function(){
 					['set!', 'x', 5], 
 					['set!', 'x', ['+', 'y', 'x']], 
 				'x'], 
-				{x:1, y:2}
+				{
+					name:'x',
+					value:1,
+					outer:{
+						name:'y',
+						value:2,
+						outer:null
+					}
+				}
 			), 7);
 	});
 });
