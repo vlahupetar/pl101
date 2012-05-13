@@ -153,7 +153,7 @@ suite('var evaluate', function(){
 			outer:{
 				name:'z',
 				value:10,
-				outer:null
+				outer:{}
 			}
 		}
 	};
@@ -199,7 +199,7 @@ suite('define/set!', function(){
 			outer:{
 				name:'z',
 				value:10,
-				outer:null
+				outer:{}
 			}
 		}
 	};
@@ -225,7 +225,7 @@ suite('define/set!', function(){
 					outer:{
 						name:'z',
 						value:10,
-						outer:null
+						outer:{}
 					}
 				}
 			}
@@ -245,7 +245,7 @@ suite('define/set!', function(){
 					outer:{
 						name:'z',
 						value:10,
-						outer:null
+						outer:{}
 					}
 				}
 			}
@@ -266,7 +266,7 @@ suite('define/set!', function(){
 					outer:{
 						name:'z',
 						value:10,
-						outer:null
+						outer:{}
 					}
 				}
 			}
@@ -286,7 +286,7 @@ suite('define/set!', function(){
 					outer:{
 						name:'z',
 						value:10,
-						outer:null
+						outer:{}
 					}
 				}
 			}
@@ -313,7 +313,7 @@ suite('begin expression', function(){
 			outer:{
 				name:'y',
 				value:2,
-				outer:null
+				outer:{}
 			}
 		}), 1);
 	});
@@ -330,7 +330,7 @@ suite('begin expression', function(){
 					outer:{
 						name:'y',
 						value:2,
-						outer:null
+						outer:{}
 					}
 				}
 			), 7);

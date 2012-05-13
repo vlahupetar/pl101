@@ -16,7 +16,7 @@ if (typeof module !== 'undefined') {
 }
 
 suite('lookup', function() {
-	var env1 = { name: 'x', value: 19, outer: null };
+	var env1 = { name: 'x', value: 19, outer: {} };
 	var env2 = { name: 'y', value: 16, outer: env1 };
 	var env3 = { name: 'x', value: 2, outer: env2 };
 
@@ -35,7 +35,7 @@ suite('lookup', function() {
 });
 
 suite('let-one', function(){
-	var env1 = { name: 'x', value: 19, outer: null };
+	var env1 = { name: 'x', value: 19, outer: {} };
 	var env2 = { name: 'y', value: 16, outer: env1};
 	var env3 = { name: 'x', value: 2, outer: env2};
 
@@ -57,20 +57,20 @@ suite('let-one', function(){
 });
 
 suite('update', function(){
-	var env1 = { name: 'x', value: 19, outer: null };
-	var env1u = { name: 'x', value: 20, outer: null };
+	var env1 = { name: 'x', value: 19, outer: {} };
+	var env1u = { name: 'x', value: 20, outer: {} };
 	var env2 = { name: 'y', value: 16, outer:
-			{ name: 'x', value: 19, outer: null }};
+			{ name: 'x', value: 19, outer: {} }};
 	var env2u = { name: 'y', value: 10, outer:
-			{ name: 'x', value: 19, outer: null }};
+			{ name: 'x', value: 19, outer: {} }};
 	var env2v = { name: 'y', value: 10, outer:
-			{ name: 'x', value: 20, outer: null }};
+			{ name: 'x', value: 20, outer: {} }};
 	var env3 = { name: 'x', value: 2, outer: 
 			{ name: 'y', value: 16, outer: 
-					{ name: 'x', value: 19, outer: null }}};
+					{ name: 'x', value: 19, outer: {} }}};
 	var env3u = { name: 'x', value: 9, outer:
 			{ name: 'y', value: 16, outer: 
-					{ name: 'x', value: 19, outer: null }}};
+					{ name: 'x', value: 19, outer: {} }}};
 
 	test('Single binding', function(){
 		update(env1, 'x', 20);
@@ -97,7 +97,7 @@ suite('function values', function(){
 	var env = {
 			name: 'always3', value: always3, outer: {
 			name: 'identity', value: identity, outer: {
-			name: 'plusone', value: plusone, outer: null}}};
+			name: 'plusone', value: plusone, outer: {}}}};
 
 	test('(always3 5)', function(){
 		assert.deepEqual(evalScheem(['always3', 5], env), 3);
