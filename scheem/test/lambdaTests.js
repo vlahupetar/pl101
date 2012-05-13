@@ -117,17 +117,17 @@ suite('function values', function(){
 });
 
 suite('lambda', function(){
-	test('((lambda-one x x) 5)', function(){
-		assert.deepEqual(evalScheem([['lambda-one', 'x', 'x'], 5], null), 5);
+	test('((lambda x x) 5)', function(){
+		assert.deepEqual(evalScheem([['lambda', 'x', 'x'], 5], null), 5);
 	});
-	test('((lambda-one x (+ x 1)) 5)', function(){
-		assert.deepEqual(evalScheem([['lambda-one', 'x', ['+', 'x', 1]], 5], null), 6);
+	test('((lambda x (+ x 1)) 5)', function(){
+		assert.deepEqual(evalScheem([['lambda', 'x', ['+', 'x', 1]], 5], null), 6);
 	});
-	test('(((lambda-one x (lambda-one y (+ x y))) 5) 3)', function(){
-		assert.deepEqual(evalScheem([[['lambda-one', 'x', ['lambda-one', 'y', ['+', 'x', 'y']]], 5], 3], null), 8);
+	test('(((lambda x (lambda y (+ x y))) 5) 3)', function(){
+		assert.deepEqual(evalScheem([[['lambda', 'x', ['lambda', 'y', ['+', 'x', 'y']]], 5], 3], null), 8);
 	});
-	test('(((lambda-one x (lambda-one x (+ x x))) 5) 3)', function(){
-		assert.deepEqual(evalScheem([[['lambda-one', 'x',	['lambda-one', 'x', ['+', 'x', 'x']]], 5], 3], null), 6);
+	test('(((lambda x (lambda x (+ x x))) 5) 3)', function(){
+		assert.deepEqual(evalScheem([[['lambda', 'x',	['lambda', 'x', ['+', 'x', 'x']]], 5], 3], null), 6);
 	});
 });
 

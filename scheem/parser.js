@@ -733,3 +733,6 @@ SCHEEM = (function(){
   
   return result;
 })();
+if (typeof module !== 'undefined') {
+    module.exports.SCHEEM = SCHEEM;
+}
